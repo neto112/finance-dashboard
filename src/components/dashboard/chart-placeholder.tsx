@@ -1,5 +1,6 @@
 "use client";
 
+import { overviewData } from "@/src/lib/mock-data";
 import {
   Bar,
   BarChart,
@@ -9,14 +10,17 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { overviewData } from "../../lib/mock-data";
 
 export function ChartPlaceholder() {
   return (
-    <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+    <div className="rounded-2xl border border-black/10 bg-black/5 p-6 dark:border-white/10 dark:bg-white/5">
       <div className="flex items-center justify-between">
-        <p className="text-lg font-semibold">Overview</p>
-        <span className="text-sm text-white/50">Last 6 months</span>
+        <p className="text-lg font-semibold text-black dark:text-white">
+          Overview
+        </p>
+        <span className="text-sm text-black/50 dark:text-white/50">
+          Last 6 months
+        </span>
       </div>
 
       <div className="mt-6 h-72">
@@ -24,16 +28,16 @@ export function ChartPlaceholder() {
           <BarChart data={overviewData}>
             <CartesianGrid
               strokeDasharray="3 3"
-              stroke="rgba(255,255,255,0.08)"
+              stroke="rgba(120,120,120,0.15)"
             />
             <XAxis
               dataKey="name"
-              stroke="rgba(255,255,255,0.5)"
+              stroke="rgba(120,120,120,0.8)"
               tickLine={false}
               axisLine={false}
             />
             <YAxis
-              stroke="rgba(255,255,255,0.5)"
+              stroke="rgba(120,120,120,0.8)"
               tickLine={false}
               axisLine={false}
             />

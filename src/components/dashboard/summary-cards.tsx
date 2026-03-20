@@ -1,4 +1,4 @@
-import { summaryItems } from "../../lib/mock-data";
+import { summaryItems } from "@/src/lib/mock-data";
 
 export function SummaryCards() {
   return (
@@ -6,9 +6,11 @@ export function SummaryCards() {
       {summaryItems.map((item) => (
         <div
           key={item.title}
-          className="rounded-2xl border border-white/10 bg-white/5 p-6"
+          className="rounded-2xl border border-black/10 bg-black/5 p-6 dark:border-white/10 dark:bg-white/5"
         >
-          <p className="text-sm text-white/60">{item.title}</p>
+          <p className="text-sm text-black/60 dark:text-white/60">
+            {item.title}
+          </p>
           <h3 className={`mt-3 text-3xl font-bold ${item.valueClassName}`}>
             {item.value}
           </h3>

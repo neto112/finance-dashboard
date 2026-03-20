@@ -11,7 +11,7 @@ export function Sidebar() {
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed left-4 top-4 z-40 rounded-lg border border-white/10 bg-neutral-900 px-4 py-2 text-sm font-medium text-white md:hidden"
+        className="fixed left-4 top-4 z-40 rounded-lg border border-black/10 bg-white px-4 py-2 text-sm font-medium text-black md:hidden dark:border-white/10 dark:bg-neutral-900 dark:text-white"
       >
         Menu
       </button>
@@ -24,16 +24,18 @@ export function Sidebar() {
       )}
 
       <aside
-        className={`fixed left-0 top-0 z-50 flex h-screen w-64 flex-col border-r border-white/10 bg-neutral-900 p-6 transition-transform duration-300 md:static md:translate-x-0 ${
+        className={`fixed left-0 top-0 z-50 flex h-screen w-64 flex-col border-r border-black/10 bg-white p-6 transition-transform duration-300 dark:border-white/10 dark:bg-neutral-900 md:static md:translate-x-0 ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
         <div className="flex items-center justify-between md:block">
-          <h1 className="text-2xl font-bold">FinDash</h1>
+          <h1 className="text-2xl font-bold text-black dark:text-white">
+            FinDash
+          </h1>
 
           <button
             onClick={() => setIsOpen(false)}
-            className="rounded-lg px-2 py-1 text-sm text-white/70 md:hidden"
+            className="rounded-lg px-2 py-1 text-sm text-black/70 dark:text-white/70 md:hidden"
           >
             Close
           </button>
@@ -46,8 +48,8 @@ export function Sidebar() {
               href="#"
               className={`block rounded-lg px-4 py-3 text-sm transition ${
                 index === 0
-                  ? "bg-white/10 font-medium text-white"
-                  : "text-white/70 hover:bg-white/5 hover:text-white"
+                  ? "bg-black/10 font-medium text-black dark:bg-white/10 dark:text-white"
+                  : "text-black/70 hover:bg-black/5 hover:text-black dark:text-white/70 dark:hover:bg-white/5 dark:hover:text-white"
               }`}
             >
               {item}
