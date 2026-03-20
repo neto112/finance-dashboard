@@ -10,7 +10,7 @@ export default function Home() {
       <div className="flex min-h-screen">
         <Sidebar />
 
-        <section className="flex-1 p-8">
+        <section className="flex-1 p-4 pt-20 md:p-8 md:pt-8">
           <Header />
           <SummaryCards />
 
