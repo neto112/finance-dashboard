@@ -6,17 +6,12 @@ import { Header } from "../components/dashboard/header";
 import { RecentTransactions } from "../components/dashboard/recent-transactions";
 import { Sidebar } from "../components/dashboard/sidebar";
 import { SummaryCards } from "../components/dashboard/summary-cards";
+
 export default function Home() {
   const [isDarkMode, setIsDarkMode] = useState(true);
 
   useEffect(() => {
-    const root = document.documentElement;
-
-    if (isDarkMode) {
-      root.classList.add("dark");
-    } else {
-      root.classList.remove("dark");
-    }
+    document.documentElement.classList.toggle("dark", isDarkMode);
   }, [isDarkMode]);
 
   return (
