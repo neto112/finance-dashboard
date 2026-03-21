@@ -84,10 +84,24 @@ Clone the project:
 git clone https://github.com/neto112/finance-dashboard.git
 ```
 
-Install dependencies:
+### Install dependencies:
 
 `npm install`
 
-Run the project:
+### Run the project:
 
 `npm run dev`
+
+## 📸 Screenshots
+
+### Dark Mode
+
+![Dark Mode](./public/screenshots/screenshot-dark.png)
+
+### Light Mode
+
+![Light Mode](./public/screenshots/screenshot-light.png)
+
+### Mobile
+
+![Mobile](./public/screenshots/screenshot-mobile.png)
