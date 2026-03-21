@@ -20,22 +20,25 @@ export const summaryItems: SummaryItem[] = [
 
 export const transactions: Transaction[] = [
   {
+    id: "1",
     title: "Grocery Store",
     category: "Food",
-    amount: "- $84.90",
-    amountClassName: "text-rose-400",
+    amount: 84.9,
+    type: "expense",
   },
   {
+    id: "2",
     title: "Salary",
     category: "Income",
-    amount: "+ $4,000.00",
-    amountClassName: "text-emerald-400",
+    amount: 4000,
+    type: "income",
   },
   {
+    id: "3",
     title: "Internet Bill",
     category: "Utilities",
-    amount: "- $59.00",
-    amountClassName: "text-rose-400",
+    amount: 59,
+    type: "expense",
   },
 ];
 

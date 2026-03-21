@@ -1,6 +1,5 @@
 "use client";
 
-import { overviewData } from "@/src/lib/mock-data";
 import {
   Bar,
   BarChart,
@@ -10,6 +9,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { overviewData } from "../../lib/mock-data";
 
 export function ChartPlaceholder() {
   return (

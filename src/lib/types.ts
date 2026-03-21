@@ -5,10 +5,11 @@ export type SummaryItem = {
 };
 
 export type Transaction = {
+  id: string;
   title: string;
   category: string;
-  amount: string;
-  amountClassName: string;
+  amount: number;
+  type: "income" | "expense";
 };
 
 export type OverviewItem = {
