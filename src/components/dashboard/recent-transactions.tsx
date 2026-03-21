@@ -3,11 +3,13 @@ import type { Transaction } from "../../lib/types";
 type RecentTransactionsProps = {
   transactions: Transaction[];
   onDeleteTransaction: (id: string) => void;
+  onEditTransaction: (transaction: Transaction) => void;
 };
 
 export function RecentTransactions({
   transactions,
   onDeleteTransaction,
+  onEditTransaction,
 }: RecentTransactionsProps) {
   return (
     <div className="rounded-2xl border border-black/10 bg-black/5 p-6 dark:border-white/10 dark:bg-white/5">
@@ -52,6 +54,14 @@ export function RecentTransactions({
                     {transaction.type === "income" ? "+" : "-"}{" "}
                     {formattedAmount}
                   </span>
+
+                  <button
+                    type="button"
+                    onClick={() => onEditTransaction(transaction)}
+                    className="rounded-lg border border-black/10 px-3 py-2 text-sm text-black/70 transition hover:bg-black/5 hover:text-black dark:border-white/10 dark:text-white/70 dark:hover:bg-white/5 dark:hover:text-white"
+                  >
+                    Edit
+                  </button>
 
                   <button
                     type="button"

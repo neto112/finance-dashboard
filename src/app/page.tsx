@@ -10,14 +10,42 @@ import { SummaryCards } from "../components/dashboard/summary-cards";
 import { transactions as initialTransactions } from "../lib/mock-data";
 import type { Transaction } from "../lib/types";
 
+const STORAGE_KEY = "finance-dashboard-transactions";
+
 export default function Home() {
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [transactions, setTransactions] =
     useState<Transaction[]>(initialTransactions);
+  const [hasLoadedTransactions, setHasLoadedTransactions] = useState(false);
+  const [editingTransaction, setEditingTransaction] =
+    useState<Transaction | null>(null);
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", isDarkMode);
   }, [isDarkMode]);
+
+  useEffect(() => {
+    const storedTransactions = localStorage.getItem(STORAGE_KEY);
+
+    if (storedTransactions) {
+      try {
+        const parsedTransactions = JSON.parse(
+          storedTransactions,
+        ) as Transaction[];
+        setTransactions(parsedTransactions);
+      } catch {
+        setTransactions(initialTransactions);
+      }
+    }
+
+    setHasLoadedTransactions(true);
+  }, []);
+
+  useEffect(() => {
+    if (!hasLoadedTransactions) return;
+
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(transactions));
+  }, [transactions, hasLoadedTransactions]);
 
   function handleAddTransaction(transaction: Transaction) {
     setTransactions((prevState) => [transaction, ...prevState]);
@@ -27,6 +55,26 @@ export default function Home() {
     setTransactions((prevState) =>
       prevState.filter((transaction) => transaction.id !== id),
     );
+
+    setEditingTransaction((current) => (current?.id === id ? null : current));
+  }
+
+  function handleEditTransaction(transaction: Transaction) {
+    setEditingTransaction(transaction);
+  }
+
+  function handleUpdateTransaction(updatedTransaction: Transaction) {
+    setTransactions((prevState) =>
+      prevState.map((transaction) =>
+        transaction.id === updatedTransaction.id
+          ? updatedTransaction
+          : transaction,
+      ),
+    );
+  }
+
+  function handleCancelEdit() {
+    setEditingTransaction(null);
   }
 
   return (
@@ -43,7 +91,12 @@ export default function Home() {
           <SummaryCards transactions={transactions} />
 
           <div className="mt-8">
-            <AddTransaction onAddTransaction={handleAddTransaction} />
+            <AddTransaction
+              onAddTransaction={handleAddTransaction}
+              onUpdateTransaction={handleUpdateTransaction}
+              editingTransaction={editingTransaction}
+              onCancelEdit={handleCancelEdit}
+            />
           </div>
 
           <div className="mt-8 grid gap-6 lg:grid-cols-[2fr_1fr]">
@@ -51,6 +104,7 @@ export default function Home() {
             <RecentTransactions
               transactions={transactions}
               onDeleteTransaction={handleDeleteTransaction}
+              onEditTransaction={handleEditTransaction}
             />
           </div>
         </section>
