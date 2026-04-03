@@ -1,3 +1,6 @@
+"use client";
+
+import { motion } from "framer-motion";
 import type { Transaction } from "../../lib/types";
 
 type SummaryCardsProps = {
@@ -42,9 +45,12 @@ export function SummaryCards({ transactions }: SummaryCardsProps) {
 
   return (
     <div className="grid gap-6 md:grid-cols-3">
-      {summaryItems.map((item) => (
-        <div
+      {summaryItems.map((item, index) => (
+        <motion.div
           key={item.title}
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.35, delay: index * 0.08 }}
           className="rounded-2xl border border-black/10 bg-black/5 p-6 dark:border-white/10 dark:bg-white/5"
         >
           <p className="text-sm text-black/60 dark:text-white/60">
@@ -54,7 +60,7 @@ export function SummaryCards({ transactions }: SummaryCardsProps) {
           <h3 className={`mt-3 text-3xl font-bold ${item.valueClassName}`}>
             {item.value}
           </h3>
-        </div>
+        </motion.div>
       ))}
     </div>
   );

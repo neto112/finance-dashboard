@@ -1,5 +1,6 @@
 "use client";
 
+import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import type { Transaction } from "../../lib/types";
 
@@ -87,7 +88,12 @@ export function AddTransaction({
   }
 
   return (
-    <div className="rounded-2xl border border-black/10 bg-black/5 p-6 dark:border-white/10 dark:bg-white/5">
+    <motion.div
+      initial={{ opacity: 0, y: 18 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.35, delay: 0.15 }}
+      className="rounded-2xl border border-black/10 bg-black/5 p-6 dark:border-white/10 dark:bg-white/5"
+    >
       <div className="flex items-center justify-between gap-3">
         <h3 className="text-xl font-semibold text-black dark:text-white">
           {editingTransaction ? "Edit Transaction" : "Add Transaction"}
@@ -148,6 +154,6 @@ export function AddTransaction({
           {editingTransaction ? "Save changes" : "Add transaction"}
         </button>
       </form>
-    </div>
+    </motion.div>
   );
 }

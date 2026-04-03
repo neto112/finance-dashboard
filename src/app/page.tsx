@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { AddTransaction } from "../components/dashboard/add-transaction";
 import { ChartPlaceholder } from "../components/dashboard/chart-placeholder";
 import { Header } from "../components/dashboard/header";
 import { RecentTransactions } from "../components/dashboard/recent-transactions";
 import { Sidebar } from "../components/dashboard/sidebar";
 import { SummaryCards } from "../components/dashboard/summary-cards";
+import { TransactionFilters } from "../components/dashboard/transaction-filters";
 import { transactions as initialTransactions } from "../lib/mock-data";
 import type { Transaction } from "../lib/types";
 
@@ -19,6 +20,10 @@ export default function Home() {
   const [hasLoadedTransactions, setHasLoadedTransactions] = useState(false);
   const [editingTransaction, setEditingTransaction] =
     useState<Transaction | null>(null);
+  const [selectedType, setSelectedType] = useState<
+    "all" | "income" | "expense"
+  >("all");
+  const [selectedCategory, setSelectedCategory] = useState("all");
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", isDarkMode);
@@ -77,6 +82,26 @@ export default function Home() {
     setEditingTransaction(null);
   }
 
+  const categories = useMemo(() => {
+    return Array.from(
+      new Set(transactions.map((transaction) => transaction.category)),
+    ).sort((a, b) => a.localeCompare(b));
+  }, [transactions]);
+
+  const filteredTransactions = useMemo(() => {
+    return transactions.filter((transaction) => {
+      const matchesType =
+        selectedType === "all" ? true : transaction.type === selectedType;
+
+      const matchesCategory =
+        selectedCategory === "all"
+          ? true
+          : transaction.category === selectedCategory;
+
+      return matchesType && matchesCategory;
+    });
+  }, [transactions, selectedType, selectedCategory]);
+
   return (
     <main className="min-h-screen bg-neutral-100 text-black transition-colors dark:bg-neutral-950 dark:text-white">
       <div className="flex min-h-screen">
@@ -99,10 +124,20 @@ export default function Home() {
             />
           </div>
 
+          <div className="mt-8">
+            <TransactionFilters
+              selectedType={selectedType}
+              selectedCategory={selectedCategory}
+              categories={categories}
+              onTypeChange={setSelectedType}
+              onCategoryChange={setSelectedCategory}
+            />
+          </div>
+
           <div className="mt-8 grid gap-6 lg:grid-cols-[2fr_1fr]">
             <ChartPlaceholder />
             <RecentTransactions
-              transactions={transactions}
+              transactions={filteredTransactions}
               onDeleteTransaction={handleDeleteTransaction}
               onEditTransaction={handleEditTransaction}
             />

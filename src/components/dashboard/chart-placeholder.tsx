@@ -1,5 +1,6 @@
 "use client";
 
+import { motion } from "framer-motion";
 import {
   Bar,
   BarChart,
@@ -13,7 +14,12 @@ import { overviewData } from "../../lib/mock-data";
 
 export function ChartPlaceholder() {
   return (
-    <div className="rounded-2xl border border-black/10 bg-black/5 p-6 dark:border-white/10 dark:bg-white/5">
+    <motion.div
+      initial={{ opacity: 0, y: 18 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.35, delay: 0.28 }}
+      className="rounded-2xl border border-black/10 bg-black/5 p-6 dark:border-white/10 dark:bg-white/5"
+    >
       <div className="flex items-center justify-between">
         <p className="text-lg font-semibold text-black dark:text-white">
           Overview
@@ -55,6 +61,6 @@ export function ChartPlaceholder() {
           </BarChart>
         </ResponsiveContainer>
       </div>
-    </div>
+    </motion.div>
   );
 }
