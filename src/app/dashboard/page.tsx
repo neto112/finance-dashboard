@@ -14,8 +14,8 @@ import {
   deleteTransaction,
   getTransactions,
   updateTransaction,
-  type Transaction,
 } from "../../lib/services/transactions";
+import type { Transaction } from "../../lib/types";
 
 export default function DashboardPage() {
   const [isDarkMode, setIsDarkMode] = useState(true);
@@ -43,6 +43,7 @@ export default function DashboardPage() {
       } catch (error) {
         console.error("Erro ao carregar transações:", error);
         setErrorMessage("Não foi possível carregar as transações.");
+        toast.dismiss();
         toast.error("Erro ao carregar transações.");
       } finally {
         setIsLoading(false);
@@ -71,11 +72,19 @@ export default function DashboardPage() {
       });
 
       setTransactions((prev) => [createdTransaction, ...prev]);
-      toast.success("Transação adicionada com sucesso!");
+
+      toast.dismiss();
+      toast.success(
+        transaction.type === "income"
+          ? "Receita adicionada com sucesso!"
+          : "Despesa adicionada com sucesso!",
+      );
     } catch (error) {
       console.error("Erro ao adicionar transação:", error);
-      setErrorMessage("Não foi possível adicionar a transação.");
-      toast.error("Erro ao adicionar transação.");
+      setErrorMessage("Não foi possível salvar a transação.");
+
+      toast.dismiss();
+      toast.error("Não foi possível salvar a transação.");
     }
   }
 
@@ -90,11 +99,14 @@ export default function DashboardPage() {
 
       setEditingTransaction((current) => (current?.id === id ? null : current));
 
-      toast.success("Transação removida com sucesso!");
+      toast.dismiss();
+      toast.success("Transação excluída!");
     } catch (error) {
       console.error("Erro ao deletar transação:", error);
-      setErrorMessage("Não foi possível deletar a transação.");
-      toast.error("Erro ao remover transação.");
+      setErrorMessage("Não foi possível excluir a transação.");
+
+      toast.dismiss();
+      toast.error("Não foi possível excluir a transação.");
     }
   }
 
@@ -133,11 +145,15 @@ export default function DashboardPage() {
       );
 
       setEditingTransaction(null);
-      toast.success("Transação atualizada com sucesso!");
+
+      toast.dismiss();
+      toast.success("Transação atualizada!");
     } catch (error) {
       console.error("Erro ao atualizar transação:", error);
       setErrorMessage("Não foi possível atualizar a transação.");
-      toast.error("Erro ao atualizar transação.");
+
+      toast.dismiss();
+      toast.error("Não foi possível atualizar a transação.");
     }
   }
 
@@ -168,13 +184,13 @@ export default function DashboardPage() {
   return (
     <div className="min-h-screen bg-neutral-100 text-black transition-colors dark:bg-neutral-950 dark:text-white">
       <main className="mx-auto flex min-h-screen w-full max-w-7xl gap-6 p-4 md:p-6">
-        <div className="hidden md:block md:w-64">
+        <div className="hidden md:block md:w-64 md:shrink-0">
           <div className="sticky top-6">
             <Sidebar />
           </div>
         </div>
 
-        <div className="w-full space-y-6">
+        <div className="min-w-0 flex-1 space-y-6">
           <Header
             isDarkMode={isDarkMode}
             onToggleTheme={() => setIsDarkMode((prev) => !prev)}
@@ -195,22 +211,22 @@ export default function DashboardPage() {
               <SummaryCards transactions={filteredTransactions} />
 
               <div className="grid grid-cols-1 gap-6 xl:grid-cols-3">
-                <div className="xl:col-span-2">
+                <div className="min-w-0 xl:col-span-2">
                   <ChartPlaceholder />
                 </div>
 
-                <div className="xl:col-span-1">
+                <div className="min-w-0 xl:col-span-1">
                   <AddTransaction
                     onAddTransaction={handleAddTransaction}
                     onUpdateTransaction={handleUpdateTransaction}
-                    editingTransaction={editingTransaction as any}
+                    editingTransaction={editingTransaction}
                     onCancelEdit={handleCancelEdit}
                   />
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 gap-6 xl:grid-cols-3">
-                <div className="xl:col-span-1">
+              <div className="grid grid-cols-1 gap-6 lg:grid-cols-[320px,minmax(0,1fr)]">
+                <div className="min-w-0">
                   <TransactionFilters
                     selectedType={selectedType}
                     selectedCategory={selectedCategory}
@@ -220,11 +236,11 @@ export default function DashboardPage() {
                   />
                 </div>
 
-                <div className="xl:col-span-2">
+                <div className="min-w-0">
                   <RecentTransactions
-                    transactions={filteredTransactions as any}
+                    transactions={filteredTransactions as Transaction[]}
                     onDeleteTransaction={handleDeleteTransaction}
-                    onEditTransaction={handleEditTransaction as any}
+                    onEditTransaction={handleEditTransaction}
                   />
                 </div>
               </div>

@@ -15,17 +15,17 @@ export function RecentTransactions({
   onEditTransaction,
 }: RecentTransactionsProps) {
   return (
-    <div className="rounded-2xl border border-black/10 bg-black/5 p-6 dark:border-white/10 dark:bg-white/5">
-      <p className="text-lg font-semibold text-black dark:text-white">
+    <div className="rounded-2xl border border-black/10 bg-white p-5 dark:border-white/10 dark:bg-neutral-900">
+      <h3 className="mb-4 text-2xl font-bold text-black dark:text-white">
         Transactions
-      </p>
+      </h3>
 
-      <div className="mt-6 space-y-4">
-        {transactions.length === 0 ? (
-          <div className="rounded-xl bg-black/5 p-4 text-sm text-black/50 dark:bg-white/5 dark:text-white/50">
-            No transactions found for the selected filters.
-          </div>
-        ) : (
+      {transactions.length === 0 ? (
+        <p className="text-sm text-black/60 dark:text-white/60">
+          No transactions found for the selected filters.
+        </p>
+      ) : (
+        <div className="space-y-3">
           <AnimatePresence>
             {transactions.map((transaction) => {
               const formattedAmount = transaction.amount.toLocaleString(
@@ -39,25 +39,23 @@ export function RecentTransactions({
               return (
                 <motion.div
                   key={transaction.id}
-                  initial={{ opacity: 0, y: 14, scale: 0.98 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: -10, scale: 0.98 }}
-                  transition={{ duration: 0.22 }}
-                  layout
-                  className="flex items-center justify-between rounded-xl bg-black/5 p-4 dark:bg-white/5"
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -12 }}
+                  className="flex flex-col gap-3 rounded-xl border border-black/10 bg-black/[0.03] p-4 dark:border-white/10 dark:bg-white/[0.03] sm:flex-row sm:items-center sm:justify-between"
                 >
-                  <div>
-                    <p className="font-medium text-black dark:text-white">
+                  <div className="min-w-0">
+                    <p className="truncate font-semibold text-black dark:text-white">
                       {transaction.title}
                     </p>
-                    <p className="text-sm text-black/50 dark:text-white/50">
+                    <p className="text-sm text-black/60 dark:text-white/60">
                       {transaction.category}
                     </p>
                   </div>
 
-                  <div className="flex items-center gap-3">
+                  <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
                     <span
-                      className={`font-semibold ${
+                      className={`text-sm font-semibold ${
                         transaction.type === "income"
                           ? "text-emerald-400"
                           : "text-rose-400"
@@ -67,28 +65,30 @@ export function RecentTransactions({
                       {formattedAmount}
                     </span>
 
-                    <button
-                      type="button"
-                      onClick={() => onEditTransaction(transaction)}
-                      className="rounded-lg border border-black/10 px-3 py-2 text-sm text-black/70 transition hover:bg-black/5 hover:text-black dark:border-white/10 dark:text-white/70 dark:hover:bg-white/5 dark:hover:text-white"
-                    >
-                      Edit
-                    </button>
+                    <div className="flex gap-2">
+                      <button
+                        type="button"
+                        onClick={() => onEditTransaction(transaction)}
+                        className="rounded-lg border border-black/10 px-3 py-2 text-sm text-black/70 transition hover:bg-black/5 hover:text-black dark:border-white/10 dark:text-white/70 dark:hover:bg-white/5 dark:hover:text-white"
+                      >
+                        Edit
+                      </button>
 
-                    <button
-                      type="button"
-                      onClick={() => onDeleteTransaction(transaction.id)}
-                      className="rounded-lg border border-black/10 px-3 py-2 text-sm text-black/70 transition hover:bg-black/5 hover:text-black dark:border-white/10 dark:text-white/70 dark:hover:bg-white/5 dark:hover:text-white"
-                    >
-                      Delete
-                    </button>
+                      <button
+                        type="button"
+                        onClick={() => onDeleteTransaction(transaction.id)}
+                        className="rounded-lg border border-black/10 px-3 py-2 text-sm text-black/70 transition hover:bg-black/5 hover:text-black dark:border-white/10 dark:text-white/70 dark:hover:bg-white/5 dark:hover:text-white"
+                      >
+                        Delete
+                      </button>
+                    </div>
                   </div>
                 </motion.div>
               );
             })}
           </AnimatePresence>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }
