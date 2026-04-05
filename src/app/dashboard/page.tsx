@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { toast } from "sonner";
 import { AddTransaction } from "../../components/dashboard/add-transaction";
 import { ChartPlaceholder } from "../../components/dashboard/chart-placeholder";
 import { Header } from "../../components/dashboard/header";
@@ -42,6 +43,7 @@ export default function DashboardPage() {
       } catch (error) {
         console.error("Erro ao carregar transações:", error);
         setErrorMessage("Não foi possível carregar as transações.");
+        toast.error("Erro ao carregar transações.");
       } finally {
         setIsLoading(false);
       }
@@ -69,9 +71,11 @@ export default function DashboardPage() {
       });
 
       setTransactions((prev) => [createdTransaction, ...prev]);
+      toast.success("Transação adicionada com sucesso!");
     } catch (error) {
       console.error("Erro ao adicionar transação:", error);
       setErrorMessage("Não foi possível adicionar a transação.");
+      toast.error("Erro ao adicionar transação.");
     }
   }
 
@@ -85,9 +89,12 @@ export default function DashboardPage() {
       );
 
       setEditingTransaction((current) => (current?.id === id ? null : current));
+
+      toast.success("Transação removida com sucesso!");
     } catch (error) {
       console.error("Erro ao deletar transação:", error);
       setErrorMessage("Não foi possível deletar a transação.");
+      toast.error("Erro ao remover transação.");
     }
   }
 
@@ -126,9 +133,11 @@ export default function DashboardPage() {
       );
 
       setEditingTransaction(null);
+      toast.success("Transação atualizada com sucesso!");
     } catch (error) {
       console.error("Erro ao atualizar transação:", error);
       setErrorMessage("Não foi possível atualizar a transação.");
+      toast.error("Erro ao atualizar transação.");
     }
   }
 

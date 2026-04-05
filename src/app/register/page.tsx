@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "sonner";
 import { createClient } from "../../lib/supabase/client";
 
 export default function RegisterPage() {
@@ -27,9 +28,11 @@ export default function RegisterPage() {
 
     if (error) {
       setError(error.message);
+      toast.error("Não foi possível criar a conta.");
       return;
     }
 
+    toast.success("Conta criada com sucesso!");
     router.push("/dashboard");
     router.refresh();
   }

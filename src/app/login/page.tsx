@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "sonner";
 import { createClient } from "../../lib/supabase/client";
 
 export default function LoginPage() {
@@ -27,9 +28,11 @@ export default function LoginPage() {
 
     if (error) {
       setError(error.message);
+      toast.error("Email ou senha inválidos.");
       return;
     }
 
+    toast.success("Login realizado com sucesso!");
     router.push("/dashboard");
     router.refresh();
   }
