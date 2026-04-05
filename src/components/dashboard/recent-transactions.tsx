@@ -1,7 +1,7 @@
 "use client";
 
+import { Transaction } from "@/src/lib/services/transactions";
 import { AnimatePresence, motion } from "framer-motion";
-import type { Transaction } from "../../lib/types";
 
 type RecentTransactionsProps = {
   transactions: Transaction[];

@@ -3,19 +3,19 @@
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 import { AddTransaction } from "../../components/dashboard/add-transaction";
-import { ChartPlaceholder } from "../../components/dashboard/chart-placeholder";
 import { Header } from "../../components/dashboard/header";
 import { RecentTransactions } from "../../components/dashboard/recent-transactions";
 import { Sidebar } from "../../components/dashboard/sidebar";
 import { SummaryCards } from "../../components/dashboard/summary-cards";
 import { TransactionFilters } from "../../components/dashboard/transaction-filters";
+import { TransactionsChart } from "../../components/dashboard/transactions.chart";
+import type { Transaction } from "../../lib/services/transactions";
 import {
   addTransaction,
   deleteTransaction,
   getTransactions,
   updateTransaction,
 } from "../../lib/services/transactions";
-import type { Transaction } from "../../lib/types";
 
 export default function DashboardPage() {
   const [isDarkMode, setIsDarkMode] = useState(true);
@@ -212,7 +212,7 @@ export default function DashboardPage() {
 
               <div className="grid grid-cols-1 gap-6 xl:grid-cols-3">
                 <div className="min-w-0 xl:col-span-2">
-                  <ChartPlaceholder />
+                  <TransactionsChart transactions={filteredTransactions} />
                 </div>
 
                 <div className="min-w-0 xl:col-span-1">
